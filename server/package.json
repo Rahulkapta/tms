@@ -1,0 +1,53 @@
+{
+  "name": "divakar-app",
+  "version": "1.0.0",
+  "main": "src/server.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node build/server.js",
+    "dev": "npx tsc && node ./build/server.js",
+    "compile": "ts-node src/server.ts",
+    "vercel-build": "npx tsc",
+    "test": "SET NODE_ENV=test && mocha --require ts-node/register src/tests/**/*.ts",
+    "lint": "eslint --fix",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "awards-category-seed": "npx tsc && node ./build/utils/seed/awards.category.seed.js",
+    "admin-data-seed": "npx tsc && node ./build/utils/seed/admin.seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepakyadav-02/divakar-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deepakyadav-02/divakar-app/issues"
+  },
+  "homepage": "https://github.com/deepakyadav-02/divakar-app#readme",
+  "description": "",
+  "dependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.3",
+    "nodemailer": "^7.0.5",
+    "nodemon": "^3.1.10",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.0.13",
+    "@types/nodemailer": "^6.4.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
