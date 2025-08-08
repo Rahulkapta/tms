@@ -3,10 +3,12 @@ import { ApiResponse } from "../../utils/response.utils";
 import { Types } from "mongoose";
 import { TicketRepository } from "../../repositories/ticket.repository";
 import { ProjectRepository } from "../../repositories/project.repository";
+import { NotificationRepository } from "../../repositories/notification.repository";
 
 // Initialize repository instances for database operations
 const ticketRepository = new TicketRepository();
 const projectRepository = new ProjectRepository();
+const notificationRepository = new NotificationRepository();
 
 /**
  * Service to create a new task within a specific project.
@@ -115,6 +117,20 @@ export const createTaskService = async (
       tags: Array.isArray(tags) ? tags : [],
       attachments: Array.isArray(attachments) ? attachments : [],
     });
+
+    // 🎯 CREATE NOTIFICATIONS AFTER TASK CREATION
+    const notification = await notificationRepository.create({
+      userId: user._id,
+      title: "New Task Created",
+      message: `A new task "${title}" has been created for "${existingProject.name}" project.`,
+      type: "task_created",
+      data: {
+        project: task,
+      },
+    });
+  
+    
+
     // Atomically increment the project's taskCount by 1
     await projectRepository.updateTaskCount(projectId, {
       $inc: { taskCount: 1 },
@@ -288,15 +304,16 @@ export const deleteTaskService = async (
       };
     }
 
-     const updatedProject = await projectRepository.updateTaskCount(projectId, { $inc: { taskCount: -1 } });
-
+    const updatedProject = await projectRepository.updateTaskCount(projectId, {
+      $inc: { taskCount: -1 },
+    });
 
     // Return success message with deleted taskId
     return {
       httpStatus: 200,
       message: "Task deleted successfully.",
       error: null,
-      data: {taskId},
+      data: { taskId },
     };
   } catch (error: any) {
     console.error("Error deleting task:", error);
@@ -332,7 +349,7 @@ export const updateTaskService = async (
       };
     }
 
-    const { taskId } = req.params;
+    const { taskId, projectId } = req.params;
 
     // Validate taskId parameter
     if (!taskId || !Types.ObjectId.isValid(taskId)) {
@@ -379,8 +396,6 @@ export const updateTaskService = async (
       };
     }
 
-   
-
     // Check if the task exists before updating
     const existingTask = await ticketRepository.findTaskById(taskId);
     if (!existingTask) {
@@ -391,6 +406,7 @@ export const updateTaskService = async (
         data: null,
       };
     }
+    const task = await projectRepository.findById(projectId);
 
     // Prepare update object with only provided fields and metadata
     const updateFields: any = {
@@ -425,6 +441,19 @@ export const updateTaskService = async (
         data: null,
       };
     }
+    // 🎯 CREATE NOTIFICATIONS AFTER TASK CREATION
+    const notification = await notificationRepository.create({
+      userId: user._id,
+      title: "Task Updated",
+      message: `A task "${title}" of project "${task?.name}" has been updated.`,
+      type: "task_updated",
+      data: {
+        project: updatedTask,
+      },
+    });
+
+    console.log(notification);
+    
 
     // Return successful update response with updated task data
     return {

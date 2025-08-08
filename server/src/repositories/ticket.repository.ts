@@ -20,7 +20,7 @@ export class TicketRepository {
   async findTaskById(taskId: string) {
     return Ticket.findById(taskId);
   }
-
+ 
   async deleteTaskById(taskId: string) {
     return Ticket.findByIdAndDelete(taskId);
   }

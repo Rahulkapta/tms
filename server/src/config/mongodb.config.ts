@@ -4,7 +4,7 @@ export async function connectDatabase() {
   try {
     // MongoDB connection
     const mongoUri =
-      process.env.MONGO_URI || "mongodb://localhost:27017/divakar-app";
+      process.env.MONGO_URI || "mongodb://127.0.0.1:27017/tms";
     mongoose
       .connect(mongoUri)
       .then(() => console.log("MongoDB connected"))

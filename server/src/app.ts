@@ -14,6 +14,7 @@ import projectRoutes from "./routes/project.routes";
 import taskRoutes from "./routes/ticket.routes";
 import commentRoutes from "./routes/comment.routes";
 import userRoutes from "./routes/user.routes";
+import notificationRoutes from "./routes/notification.routes";
 // Load environment variables from .env file
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/auth", preRequestLogger, authRoutes, postRequestLogger);
 app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/:projectId/tasks", taskRoutes);
 app.use("/api/v1/:ticketId/comments", commentRoutes);

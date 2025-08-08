@@ -3,9 +3,12 @@ import { Types } from "mongoose";
 import { ApiResponse } from "../../utils/response.utils";
 import { TicketRepository } from "../../repositories/ticket.repository"; // for existence check
 import { CommentRepository } from "../../repositories/comment.repository";
+import { NotificationRepository } from "../../repositories/notification.repository";
 const commentRepository = new CommentRepository();
 
 const ticketRepository = new TicketRepository();
+const notificationRepository = new NotificationRepository();
+
 
 export const addCommentService = async (
   req: Request
@@ -63,6 +66,21 @@ export const addCommentService = async (
       createdBy: user._id,
       updatedBy: user._id,
     });
+
+      // 🎯 CREATE NOTIFICATIONS AFTER PROJECT UPDATION
+    const notification = await notificationRepository.create({
+      userId: user._id,
+      title: "Added Comment",
+      message: `A comment "${comment.text}" has been added to ${ticketExists.title}.`,
+      type: "comment_added",
+      data: {
+        ticketExists,
+        comment
+      },
+    });
+
+    console.log(notification);
+    
 
     return {
       httpStatus: 201,

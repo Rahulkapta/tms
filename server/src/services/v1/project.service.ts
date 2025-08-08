@@ -3,9 +3,11 @@ import { ApiResponse } from "../../utils/response.utils";
 import { ProjectRepository } from "../../repositories/project.repository";
 import { TicketRepository } from "../../repositories/ticket.repository";
 import { Types } from "mongoose";
+import { NotificationRepository } from "../../repositories/notification.repository";
 
 const projectRepository = new ProjectRepository();
 const ticketRepository = new TicketRepository();
+const notificationRepository = new NotificationRepository()
 
 /**
  * Service to create a new project.
@@ -116,6 +118,18 @@ export const createProjectService = async (
     if (!project) {
       throw new Error("Something went wrong while making a project.");
     }
+
+    // 🎯 Create NOTIFICATIONS AFTER PROJECT CREATION
+    const notification = await notificationRepository.create({
+      userId: userId,
+      title: "New Project Created",
+      message: `A new project "${name}" has been created and you are assigned to it.`,
+      type: "project_created",
+      data: {
+        project
+      },
+    });
+    
 
     return {
       httpStatus: 201,
@@ -380,6 +394,17 @@ export const updateProjectService = async (
         data: null,
       };
     }
+
+     // 🎯 CREATE NOTIFICATIONS AFTER PROJECT UPDATION
+    const notification = await notificationRepository.create({
+      userId: user._id,
+      title: "Project updated",
+      message: `A project "${existingProject.name}" has been updated.`,
+      type: "project_updated",
+      data: {
+        project: updatedProject
+      },
+    });
 
     return {
       httpStatus: 200,

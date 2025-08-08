@@ -16,6 +16,6 @@
   } else if (diffMinutes > 0) {
     return `${diffMinutes}m`;
   } else {
-    return `just now`;
+    return `1s`;
   }
 };
