@@ -129,7 +129,7 @@ export const createProjectService = async (
         project
       },
     });
-    
+
 
     return {
       httpStatus: 201,
@@ -405,7 +405,7 @@ export const updateProjectService = async (
         project: updatedProject
       },
     });
-
+    
     return {
       httpStatus: 200,
       message: "Project updated successfully.",

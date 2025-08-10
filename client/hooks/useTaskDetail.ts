@@ -70,7 +70,7 @@ export function useTaskDetail() {
       try {
         const parsedTask = JSON.parse(taskParam);
         setTask((prev) => ({ ...prev, ...parsedTask }));
-        setSelectedAssignees(parsedTask.assignedTo);
+  setSelectedAssignees(parsedTask.assignedTo);
       } catch (error) {
         console.error("Failed to parse taskParam", error);
       }

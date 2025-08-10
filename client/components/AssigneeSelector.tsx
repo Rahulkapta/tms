@@ -25,13 +25,13 @@ const AssigneeSelector: React.FC<AssigneeSelectorProps> = ({
 }) => {
 
 
-
+ 
     
   return (
     <View style={styles.inputGroup}>
       <Text style={styles.sectionTitle}>Assignee</Text>
       <View style={styles.inputWrapper}>
-        {selectedAssignees.length === 0 ? (
+        {selectedAssignees?.length === 0? (
           <TouchableOpacity
             onPress={() => setIsAssigneeModalVisible(true)}
             style={styles.selectItem}
@@ -65,7 +65,7 @@ const AssigneeSelector: React.FC<AssigneeSelectorProps> = ({
             })}
           </ScrollView>
         )}
-        {selectedAssignees.length > 0 && (
+        {selectedAssignees?.length > 0 && (
           <>
             <TouchableOpacity
               onPress={() => setIsAssigneeModalVisible(true)}

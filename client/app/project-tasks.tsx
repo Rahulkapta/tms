@@ -116,8 +116,12 @@ export default function ProjectTasksScreen() {
 
   // Filter users to get only employees
   const Employees = useMemo(() => {
-    return users.filter((p) => p.details.designation === "Employee");
-  }, [users]);
+    return users.filter(
+      (user) =>
+        user.details.designation === "Employee" &&
+        selectedProject?.assignedPeople.includes(user._id)
+    );
+  }, [users, selectedProject?.assignedPeople]);
 
   // Inside your component, before return:
   // Helper to map IDs → names
