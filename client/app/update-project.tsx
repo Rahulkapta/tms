@@ -285,7 +285,6 @@ export default function UpdateProjectScreen() {
     changed &&
     projectData.title.trim() !== "" &&
     projectData.description.trim() !== "" &&
-    selectedEmployees.length > 0 &&
     managerId.trim() !== "" &&
     dateError === "";
 
