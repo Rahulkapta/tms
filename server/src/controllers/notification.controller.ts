@@ -3,7 +3,7 @@ import { Notification } from "../models/notification.model";
 import { ObjectId } from "mongodb";
 
 export const getNotifications = async (req: Request, res: Response) => {
- try {
+  try {
     const user = req.user;
     if (!user) {
       return res.status(401).json({
@@ -14,8 +14,7 @@ export const getNotifications = async (req: Request, res: Response) => {
 
     // Get user role name
     const userRoleName = user?.roleId?.name;
-    console.log("User role:", userRoleName);
-    
+
     let notifications;
 
     // Authorization check for allowed roles
@@ -27,7 +26,7 @@ export const getNotifications = async (req: Request, res: Response) => {
     } else {
       // Regular users see only filtered notifications
       const userId = new ObjectId(user._id);
-      
+
       const notificationFilter = {
         $or: [
           // Project-related notifications where user is involved
@@ -39,21 +38,25 @@ export const getNotifications = async (req: Request, res: Response) => {
               { "data.project.team": { $in: [userId] } },
             ],
           },
-          
+          {
+            type: "project_deleted",
+            $or: [
+              { "data.project.manager": userId },
+              { "data.project.assignedPeople": { $in: [userId] } },
+              { "data.project.team": { $in: [userId] } },
+            ],
+          },
+
           // Task-related notifications where user is involved
           {
             type: { $in: ["task_created", "task_updated"] },
-            $or: [
-              { "data.project.assignedTo": { $in: [userId] } }
-            ],
+            $or: [{ "data.project.assignedTo": { $in: [userId] } }],
           },
-          
+
           // Comment notifications where user is involved
           {
             type: "comment_added",
-            $or: [
-              { "data.ticketExists.assignedTo": { $in: [userId] } }
-            ],
+            $or: [{ "data.ticketExists.assignedTo": { $in: [userId] } }],
           },
         ],
       };
@@ -70,7 +73,6 @@ export const getNotifications = async (req: Request, res: Response) => {
         notifications,
       },
     });
-    
   } catch (error: any) {
     console.error("Error fetching notifications:", error);
     return res.status(500).json({

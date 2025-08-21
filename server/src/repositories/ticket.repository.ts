@@ -6,7 +6,7 @@ export class TicketRepository {
     return Ticket.create(taskData);
   }
   async deleteManyByProjectId(projectId: string) {
-    return Ticket.deleteOne({ projectId: new Types.ObjectId(projectId) });
+    return Ticket.deleteMany({ projectId: new Types.ObjectId(projectId) });
   }
 
   async findByTitleAndProject(title: string, projectId: string) {
