@@ -182,9 +182,20 @@ export const deleteProjectService = async (
       };
     }
 
+     // Find project by ID
+    const project = await projectRepository.findById(projectId);
+
+    if (!project) {
+      return {
+        httpStatus: 404,
+        message: "Project not found.",
+        error: "Not Found",
+        data: null,
+      };
+    }
+
     // Delete project by ID
     const deletedProject = await projectRepository.deleteById(projectId);
-
     if (!deletedProject) {
       return {
         httpStatus: 404,
@@ -194,8 +205,24 @@ export const deleteProjectService = async (
       };
     }
 
+    
+     // 🎯 Create NOTIFICATIONS AFTER PROJECT DELETION
+    const notification = await notificationRepository.create({
+      userId: req.user._id,
+      title: "Project deleted",
+      message: `A project "${project.name}" has been deleted.`,
+      type: "project_deleted",
+      data: {
+        project,
+      },
+    });
+    console.log("project deleted",notification);
+    
+
     // Also delete associated tickets/tasks for the project
     await ticketRepository.deleteManyByProjectId(projectId);
+
+
 
     return {
       httpStatus: 200,
