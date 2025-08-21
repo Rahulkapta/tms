@@ -15,6 +15,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import api from "@/utils/api";
+import { Entypo } from "@expo/vector-icons";
 
 const ROLES = ["ADMIN", "EMPLOYEE", "CUSTOMER"];
 const DESIGNATIONS = ["Manager", "Employee"]; // example items
@@ -48,56 +49,70 @@ export default function AddPeopleScreen() {
   };
 
   const handleAddPerson = async () => {
-  // 1. Detailed field validation
-  if (!formData.firstName.trim()) {
-    Alert.alert("Validation Error", "First name is required.");
-    return;
-  }
-  if (!formData.email.trim()) {
-    Alert.alert("Validation Error", "Email address is required.");
-    return;
-  }
-  if (!formData.role.trim()) {
-    Alert.alert("Validation Error", "Please select a role (ADMIN, EMPLOYEE, or CUSTOMER).");
-    return;
-  }
-  if (!formData.mobileNumber.trim()) {
-    Alert.alert("Validation Error", "Mobile number is required.");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const { data: res } = await api.post("/auth/register", formData);
-
-    // 2. Success: include first name and role in message
-    if (res.httpStatus === 200 || res.httpStatus === 201) {
+    // 1. Detailed field validation
+    if (!formData.firstName.trim()) {
+      Alert.alert("Validation Error", "First name is required.");
+      return;
+    }
+    if (!formData.email.trim()) {
+      Alert.alert("Validation Error", "Email address is required.");
+      return;
+    }
+    if (!formData.role.trim()) {
       Alert.alert(
-        "User Added",
-        `${formData.firstName} ${formData.lastName} (${formData.role}) has been successfully registered.`,
-        [{ text: "OK", onPress: () => router.back() }]
+        "Validation Error",
+        "Please select a role (ADMIN, EMPLOYEE, or CUSTOMER)."
       );
-    } else {
-      // 3a. API-level failure
-      Alert.alert("Registration Failed", res.message || "Unable to add the user. Please try again.");
+      return;
     }
-  } catch (error: any) {
-    // 3b. Network or unexpected error
-    if (error.response) {
-      const serverMsg = error.response.data?.message;
-      Alert.alert("Server Error", serverMsg || "Failed to register. Try again later.");
-    } else if (error.request) {
-      Alert.alert("Network Error", "Cannot reach server. Check your connection and try again.");
-    } else {
-      Alert.alert("Unexpected Error", error.message || "An error occurred. Please try again.");
+    if (!formData.mobileNumber.trim()) {
+      Alert.alert("Validation Error", "Mobile number is required.");
+      return;
     }
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-};
 
+    setLoading(true);
+
+    try {
+      const { data: res } = await api.post("/auth/register", formData);
+
+      // 2. Success: include first name and role in message
+      if (res.httpStatus === 200 || res.httpStatus === 201) {
+        Alert.alert(
+          "User Added",
+          `${formData.firstName} ${formData.lastName} (${formData.role}) has been successfully registered.`,
+          [{ text: "OK", onPress: () => router.back() }]
+        );
+      } else {
+        // 3a. API-level failure
+        Alert.alert(
+          "Registration Failed",
+          res.message || "Unable to add the user. Please try again."
+        );
+      }
+    } catch (error: any) {
+      // 3b. Network or unexpected error
+      if (error.response) {
+        const serverMsg = error.response.data?.message;
+        Alert.alert(
+          "Server Error",
+          serverMsg || "Failed to register. Try again later."
+        );
+      } else if (error.request) {
+        Alert.alert(
+          "Network Error",
+          "Cannot reach server. Check your connection and try again."
+        );
+      } else {
+        Alert.alert(
+          "Unexpected Error",
+          error.message || "An error occurred. Please try again."
+        );
+      }
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const isFormValid =
     formData.firstName.trim() &&
@@ -112,9 +127,8 @@ export default function AddPeopleScreen() {
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => router.back()}
-            style={styles.closeButton}
           >
-            <Text style={styles.closeButtonText}>✕</Text>
+            <Entypo name="cross" size={24} color="black" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Add New Person</Text>
           <View style={styles.placeholder} />
@@ -260,13 +274,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
   },
-  closeButton: {
-    width: 48,
-    height: 48,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  closeButtonText: { fontSize: 24, color: "#111518" },
+ 
   headerTitle: {
     flex: 1,
     textAlign: "center",
@@ -302,16 +310,33 @@ const styles = StyleSheet.create({
   addButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "#00000066",
+    backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "flex-end",
   },
   modalContent: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: "#fff",
-    maxHeight: "40%",
-    marginHorizontal: 32,
-    marginTop: "auto",
-    marginBottom: 32,
-    borderRadius: 8,
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: "50%",
   },
-  modalItem: { padding: 16, borderBottomWidth: 1, borderBottomColor: "#eee" },
-  modalItemText: { fontSize: 16 },
+  modalItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#f8f8f8",
+  },
+  modalItemText: {
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "400",
+  },
 });

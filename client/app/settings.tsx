@@ -49,11 +49,7 @@ export default function SettingsScreen() {
       <View style={styles.content}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign name="arrowleft" size={24} color="black" />
-            </TouchableOpacity>
           <Text style={styles.headerTitle}>Profile</Text>
-          <View style={styles.placeholder} />
         </View>
 
         {/* Profile Section */}
@@ -128,7 +124,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: 'center',
     backgroundColor: "#ffffff",
     paddingHorizontal: 16,
     paddingVertical: 16,
