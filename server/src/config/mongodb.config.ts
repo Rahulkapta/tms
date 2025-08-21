@@ -4,7 +4,7 @@ export async function connectDatabase() {
   try {
     // MongoDB connection
     const mongoUri =
-      process.env.MONGO_URI || "mongodb://127.0.0.1:27017/tms";
+      process.env.MONGO_URI || "mongodb+srv://rr361680:9NPOTUQcW5Ulil0c@test-tms.xtrm5xy.mongodb.net/?retryWrites=true&w=majority&appName=test-TMS";
     mongoose
       .connect(mongoUri)
       .then(() => console.log("MongoDB connected"))

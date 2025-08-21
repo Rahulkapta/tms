@@ -3,13 +3,12 @@ import dotenv from 'dotenv';
 import { Role } from '../models/role.model';
 import { User } from '../models/user.model';
 import { UserDetails } from '../models/userDetails.model';
-import { hashOTP } from '../utils/otp.util';
 import { Permissions } from '../utils/common.utils';
 
 // Load env variables
 dotenv.config();
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/divakar-app';
+const mongoUri = process.env.MONGO_URI || 'mongodb+srv://rr361680:9NPOTUQcW5Ulil0c@test-tms.xtrm5xy.mongodb.net/?retryWrites=true&w=majority&appName=test-TMS';
 
 async function createSuperAdmin() {
     await mongoose.connect(mongoUri);
@@ -37,7 +36,6 @@ async function createSuperAdmin() {
         name: { first: 'Super', last: 'Admin' },
         mobileNumber: '9999999999',
         photoUrl: '',
-        designation: 'Super Admin',
     });
 
     // Create user with detailsId
