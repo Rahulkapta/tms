@@ -4,10 +4,12 @@ import { ProjectRepository } from "../../repositories/project.repository";
 import { TicketRepository } from "../../repositories/ticket.repository";
 import { Types } from "mongoose";
 import { NotificationRepository } from "../../repositories/notification.repository";
+import { CommentRepository } from "../../repositories/comment.repository";
 
 const projectRepository = new ProjectRepository();
 const ticketRepository = new TicketRepository();
-const notificationRepository = new NotificationRepository()
+const notificationRepository = new NotificationRepository();
+const commentRepository = new CommentRepository();
 
 /**
  * Service to create a new project.
@@ -123,13 +125,12 @@ export const createProjectService = async (
     const notification = await notificationRepository.create({
       userId: userId,
       title: "New Project Created",
-      message: `A new project "${name}" has been created and you are assigned to it.`,
+      message: `A new project "${name}" has been created.`,
       type: "project_created",
       data: {
-        project
+        project,
       },
     });
-
 
     return {
       httpStatus: 201,
@@ -395,17 +396,17 @@ export const updateProjectService = async (
       };
     }
 
-     // 🎯 CREATE NOTIFICATIONS AFTER PROJECT UPDATION
+    // 🎯 CREATE NOTIFICATIONS AFTER PROJECT UPDATION
     const notification = await notificationRepository.create({
       userId: user._id,
       title: "Project updated",
       message: `A project "${existingProject.name}" has been updated.`,
       type: "project_updated",
       data: {
-        project: updatedProject
+        project: updatedProject,
       },
     });
-    
+
     return {
       httpStatus: 200,
       message: "Project updated successfully.",
