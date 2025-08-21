@@ -128,8 +128,6 @@ export const createTaskService = async (
         project: task,
       },
     });
-  
-    
 
     // Atomically increment the project's taskCount by 1
     await projectRepository.updateTaskCount(projectId, {
@@ -451,8 +449,6 @@ export const updateTaskService = async (
         project: updatedTask,
       },
     });
-
-    console.log(notification);
     
 
     // Return successful update response with updated task data

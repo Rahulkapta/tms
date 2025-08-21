@@ -79,9 +79,6 @@ export const addCommentService = async (
       },
     });
 
-    console.log(notification);
-    
-
     return {
       httpStatus: 201,
       message: "Comment added successfully.",

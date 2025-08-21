@@ -159,50 +159,30 @@ export default function InboxScreen() {
         <View style={styles.activityInfo}>
           {notif.type === "comment_added" && (
             <View>
-            <Text style={styles.activityTitle}>
-              {`${getManagerName(
-                notif.data.comment.createdBy
-              )} commented on "${notif.data.ticketExists.title}" task:`}
-            </Text>
-            <Text style={styles.activityMessage} numberOfLines={2}>
-            {notif.data.comment.text}
-          </Text>
+              <Text style={styles.activityTitle}>
+                {`${getManagerName(
+                  notif.data.comment.createdBy
+                )} commented on "${notif.data.ticketExists.title}" task:`}
+              </Text>
+              <Text style={styles.activityMessage} numberOfLines={2}>
+                {notif.data.comment.text}
+              </Text>
             </View>
-            
           )}
 
-            {notif.type !== "comment_added" && (
+          {notif.type !== "comment_added" && (
             <View>
-            <Text style={styles.activityTitle} numberOfLines={1}>
-            {notif.title}
-          </Text>
-          <Text style={styles.activityMessage} numberOfLines={2}>
-            {notif.message}
-          </Text>
+              <Text style={styles.activityTitle} numberOfLines={1}>
+                {notif.title} by {getManagerName(notif.userId)}
+              </Text>
+              <Text style={styles.activityMessage} numberOfLines={2}>
+                {notif.message}
+              </Text>
             </View>
-            
           )}
-          
 
           {(notif.type === "task_created" || notif.type === "task_updated") && (
             <View style={styles.projectDetails}>
-              {notif.type === "task_created" && (
-                <View style={styles.detailRow}>
-                  <Text style={styles.detailLabel}>Created by:</Text>
-                  <Text style={styles.detailValue}>
-                    {getManagerName(notif.userId)}
-                  </Text>
-                </View>
-              )}
-              {notif.type === "task_updated" && (
-                <View style={styles.detailRow}>
-                  <Text style={styles.detailLabel}>Updated by:</Text>
-                  <Text style={styles.detailValue}>
-                    {getManagerName(notif.data.project.updatedBy)}
-                  </Text>
-                </View>
-              )}
-
               {/* Assigned People */}
               {notif.data.project.assignedTo &&
                 notif.data.project.assignedTo.length > 0 && (
@@ -214,6 +194,7 @@ export default function InboxScreen() {
                   </View>
                 )}
 
+              {/* Priority */}
               {notif.data.project.priority && (
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Priority:</Text>
@@ -223,6 +204,7 @@ export default function InboxScreen() {
                 </View>
               )}
 
+              {/* Status */}
               {notif.type === "task_updated" && (
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Status:</Text>
@@ -253,6 +235,7 @@ export default function InboxScreen() {
             notif.type === "project_updated") &&
             notif.data?.project && (
               <View style={styles.projectDetails}>
+                {/* Updated name */}
                 {notif.type === "project_updated" && (
                   <View style={styles.detailRow}>
                     <Text style={styles.detailLabel}>Updated Name:</Text>
@@ -269,25 +252,6 @@ export default function InboxScreen() {
                   </Text>
                 </View>
 
-                {notif.type === "project_updated" && (
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Updated by:</Text>
-                    <Text style={styles.detailValue}>
-                      {getManagerName(notif.data.project.updatedBy)}
-                    </Text>
-                  </View>
-                )}
-
-                {/* Created By */}
-                {notif.type === "project_created" && (
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Created by:</Text>
-                    <Text style={styles.detailValue}>
-                      {getManagerName(notif.userId)}
-                    </Text>
-                  </View>
-                )}
-
                 {/* Assigned People */}
                 {notif.data.project.assignedPeople &&
                   notif.data.project.assignedPeople.length > 0 && (
@@ -298,6 +262,15 @@ export default function InboxScreen() {
                       </Text>
                     </View>
                   )}
+
+                {notif.type === "project_updated" && (
+                  <View style={styles.detailRow}>
+                    <Text style={styles.detailLabel}>Status:</Text>
+                    <Text style={styles.detailValue}>
+                      {notif.data.project.status}
+                    </Text>
+                  </View>
+                )}
 
                 {/* Project Duration */}
                 {notif.data.project.startDate && notif.data.project.endDate && (
@@ -333,9 +306,7 @@ export default function InboxScreen() {
     setRefreshing(true);
     try {
       // Fetch both notifications and users
-      await Promise.all([
-        fetchNotifications(),
-      ]);
+      await Promise.all([fetchNotifications()]);
     } catch (error) {
       console.error("Error during refresh:", error);
     } finally {
@@ -351,13 +322,13 @@ export default function InboxScreen() {
       <View style={styles.content}>
         {/* Header */}
         <View style={styles.header}>
-          <View style ={{width:24}}></View>
+          <View style={{ width: 24 }}></View>
           <Text style={styles.headerTitle}>Activity</Text>
           <TouchableOpacity onPress={handleRefresh} disabled={refreshing}>
-            <Foundation 
-              name="refresh" 
-              size={24} 
-              color={refreshing ? "#999" : "black"} 
+            <Foundation
+              name="refresh"
+              size={24}
+              color={refreshing ? "#999" : "black"}
             />
           </TouchableOpacity>
         </View>
@@ -437,7 +408,7 @@ const styles = StyleSheet.create({
   activityTitle: { fontSize: 16, fontWeight: "600" },
   activityProject: { fontSize: 14, color: "#555", marginTop: 4 },
   activityMessage: { fontSize: 12, color: "#777", marginTop: 2 },
-  activityTime: { fontSize: 12, color: "#AAA", marginLeft: 8 ,padding: 6,},
+  activityTime: { fontSize: 12, color: "#AAA", marginLeft: 8, padding: 6 },
   emptyState: { flex: 1, alignItems: "center", marginTop: 100 },
   emptyText: { fontSize: 16, color: "#999" },
   projectDetails: {

@@ -216,7 +216,6 @@ export const deleteProjectService = async (
         project,
       },
     });
-    console.log("project deleted",notification);
     
 
     // Also delete associated tickets/tasks for the project
