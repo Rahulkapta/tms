@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
 import api from "@/utils/api";
@@ -24,10 +24,9 @@ import { IUser } from "./people";
 import DateRangePicker from "@/components/DateRangePicker";
 import AssigneeSelector from "@/components/AssigneeSelector";
 
-
 // Interface defining the shape of our form data
 export interface TaskData {
-  _id:string;
+  _id: string;
   title: string;
   description: string;
   startDate: string;
@@ -52,7 +51,7 @@ export default function NewTaskScreen() {
 
   // Local state for form fields and modals
   const [taskData, setTaskData] = useState<TaskData>({
-    _id:"",
+    _id: "",
     title: "",
     description: "",
     startDate: "",
@@ -172,14 +171,11 @@ export default function NewTaskScreen() {
         <View style={styles.content}>
           {/* Header */}
           <View style={styles.header}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => router.back()}
-            >
-              <Text style={styles.closeButtonText}>✕</Text>
+            <TouchableOpacity onPress={() => router.back()}>
+              <Entypo name="cross" size={24} color="black" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>New Task</Text>
-            <View style={styles.placeholder} />
+            <View style={{ width: 24 }} />
           </View>
 
           {/* Form */}
@@ -288,16 +284,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingBottom: 8,
   },
-  closeButton: {
-    width: 48,
-    height: 48,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  closeButtonText: {
-    fontSize: 24,
-    color: "#121416",
-  },
+
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",

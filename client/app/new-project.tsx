@@ -149,7 +149,6 @@ export default function NewProjectScreen() {
     } else {
       setDateError("");
     }
-
     setProjectData(updatedData);
   };
 

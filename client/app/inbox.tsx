@@ -1,5 +1,4 @@
 import BottomNavigation from "@/components/BottomNavigation";
-import { getInitials } from "@/utils/common.utils";
 import React, { useEffect, useMemo, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -9,12 +8,14 @@ import {
   ListRenderItem,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import api from "@/utils/api";
 import { getTimeAgo } from "@/utils/timeUtils";
 import { IUser } from "./people";
+import { Foundation } from "@expo/vector-icons";
 
 export interface Notification {
   _id: string;
@@ -34,6 +35,7 @@ export default function InboxScreen() {
   // List of all users fetched from backend for manager/employee selection
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchNotifications = async () => {
     try {
@@ -327,6 +329,20 @@ export default function InboxScreen() {
     </View>
   );
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      // Fetch both notifications and users
+      await Promise.all([
+        fetchNotifications(),
+      ]);
+    } catch (error) {
+      console.error("Error during refresh:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   // Key extractor function
   const keyExtractor = (item: Notification) => item._id;
 
@@ -335,7 +351,15 @@ export default function InboxScreen() {
       <View style={styles.content}>
         {/* Header */}
         <View style={styles.header}>
+          <View style ={{width:24}}></View>
           <Text style={styles.headerTitle}>Activity</Text>
+          <TouchableOpacity onPress={handleRefresh} disabled={refreshing}>
+            <Foundation 
+              name="refresh" 
+              size={24} 
+              color={refreshing ? "#999" : "black"} 
+            />
+          </TouchableOpacity>
         </View>
 
         {/* Activity Feed with FlatList */}
