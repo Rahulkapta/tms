@@ -7,8 +7,9 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { store } from "@/store";
+import { persistor, store } from "@/store";
 import { useFonts } from "expo-font";
+import { PersistGate } from "redux-persist/integration/react";
 
 const AuthStack = () => {
   const colorScheme = useColorScheme();
@@ -22,11 +23,13 @@ const AuthStack = () => {
   }
   return (
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
         </Stack>
       </ThemeProvider>
+      </PersistGate>
     </Provider>
   );
 };

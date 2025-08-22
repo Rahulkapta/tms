@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFF",
   },
-  content: { flex: 1, paddingHorizontal: 16 },
+  content: { flex: 1 },
   header: {
     flexDirection: "row", // Horizontal layout for header elements
     alignItems: "center",
@@ -369,7 +369,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingHorizontal: 16,
     paddingVertical: 16,
-    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#dbe0e6',
   },
 
   headerTitle: {
@@ -458,9 +459,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
-  todoStatus: {
-    backgroundColor: "#e3f2fd",
-  },
+ 
 
   statusText: {
     fontSize: 11,

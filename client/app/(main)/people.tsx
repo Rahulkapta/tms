@@ -186,7 +186,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingHorizontal: 16,
     paddingVertical: 16,
-    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#dbe0e6',
   },
   headerSpacer: {
     width: 48, // Empty space to balance the header layout

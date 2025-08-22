@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface UserDetails {
   __v: number;
   _id: string;
-  createdAt: string;      // ISO date string
+  createdAt: string;
   designation: string;
   mobileNumber: string;
   name: {
@@ -11,9 +11,10 @@ export interface UserDetails {
     last: string;
   };
   photoUrl: string;
-  updatedAt: string;      // ISO date string
+  updatedAt: string;
   userId: string;
 }
+
 export interface User {
   accessToken: string;
   email: string;
@@ -30,6 +31,10 @@ const initialState: AuthState = {
   user: null,
 };
 
+interface RehydratePayload {
+  auth?: AuthState;
+}
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -40,6 +45,15 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase('persist/REHYDRATE' as any, (state, action) => {
+      // Typecast action to include payload
+      const rehydrateAction = action as PayloadAction<RehydratePayload | undefined>;
+      if (rehydrateAction.payload?.auth) {
+        state.user = rehydrateAction.payload.auth.user;
+      }
+    });
   },
 });
 
