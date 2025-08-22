@@ -42,6 +42,8 @@ export default function LoginScreen() {
 
       if (res.httpStatus === 200) {
         const user = res.data.user;
+        console.log(user);
+        
         // Store in Redux
         dispatch(loginSuccess(user));
 

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Entypo, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 
 import Input from "@/components/Input";
 import TextArea from "@/components/TextArea";
@@ -61,7 +61,7 @@ export default function TaskDetailScreen() {
           style={styles.backButton}
           onPress={() => router.back()}
         >
-          <Text style={styles.backButtonText}>←</Text>
+          <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Task Details</Text>
         <TouchableOpacity onPress={handleSaveTask} style={{ margin: 10 }}>
@@ -239,10 +239,6 @@ const styles = StyleSheet.create({
     height: 48,
     justifyContent: "center",
     alignItems: "center",
-  },
-  backButtonText: {
-    fontSize: 24,
-    color: "#111518",
   },
   headerTitle: {
     fontSize: 18,

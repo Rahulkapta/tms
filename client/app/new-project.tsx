@@ -219,12 +219,13 @@ export default function NewProjectScreen() {
           {/* Header with back button */}
           <View style={styles.header}>
             <TouchableOpacity
-              style={styles.closeButton}
               onPress={() => router.back()}
             >
-              <Text style={styles.closeButtonText}>✕</Text>
+              <Entypo name="cross" size={28} color="black" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>New Project</Text>
+            <View style={{width:24}}></View>
+
           </View>
 
           {/* Form Fields */}
@@ -439,7 +440,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#111418",
   },

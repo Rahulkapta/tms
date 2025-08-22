@@ -1,3 +1,5 @@
+import { Colors } from '@/constants/Colors';
+import { Entypo } from '@expo/vector-icons';
 import React from 'react';
 import {
     StyleSheet,
@@ -22,7 +24,7 @@ export default function TaskCard({
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.iconContainer}>
-        <Text style={styles.icon}>○</Text>
+        <Entypo name="circle" size={20} color={Colors.iconContainer.icon} />
       </View>
       <View style={styles.content}>
         <Text style={styles.title} numberOfLines={1}>
@@ -50,14 +52,10 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 12,
-    backgroundColor: '#f0f2f5',
+    backgroundColor: Colors.iconContainer.iconBackground,
     justifyContent: 'center',
     alignItems: 'center',
     flexShrink: 0,
-  },
-  icon: {
-    fontSize: 24,
-    color: '#111418',
   },
   content: {
     flex: 1,

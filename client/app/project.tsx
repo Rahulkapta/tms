@@ -125,7 +125,7 @@ export default function ProjectsScreen() {
         {/* --- Main Project List or Loading State --- */}
         {loading ? (
           <ActivityIndicator
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 400 }}
             size="large"
             color="#007AFF"
           />
@@ -178,10 +178,9 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#111418",
-    letterSpacing: -0.015,
     flex: 1,
     textAlign: "center",
   },

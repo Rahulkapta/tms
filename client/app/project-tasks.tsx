@@ -20,7 +20,7 @@ import { Icons } from "@/assets/icons";
 
 import api from "@/utils/api";
 import { IUser } from "./people";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
 /**
  * Interface representing attachments related to a ticket.
@@ -214,15 +214,6 @@ export default function ProjectTasksScreen() {
     });
   };
 
-  // Show loading spinner while fetching tasks
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#0c7ff2" />
-      </View>
-    );
-  }
-
   // Show error message and retry option if loading tasks failed
   if (error) {
     return (
@@ -279,36 +270,44 @@ export default function ProjectTasksScreen() {
           />
 
           {/* Task list filtered by active tab status */}
-          <ScrollView
-            style={styles.taskList}
-            showsVerticalScrollIndicator={false}
-          >
-            {getTasksByStatus(activeTab).length === 0 ? (
-              <View style={styles.emptyContainer}>
-                <Text style={styles.emptyText}>
-                  No tasks found for "{activeTab}"
-                </Text>
-              </View>
-            ) : (
-              getTasksByStatus(activeTab).map((task) => (
-                <TaskCard
-                  key={task._id}
-                  id={task._id}
-                  title={task.title}
-                  assignedTo={getAssigneeNames(task.assignedTo ?? [])}
-                  status={task.status}
-                  onPress={() => handleTaskPress(task)}
-                />
-              ))
-            )}
-          </ScrollView>
+          {loading ? (
+            <ActivityIndicator
+              style={{ marginTop: 400 }}
+              size="large"
+              color="#007AFF"
+            />
+          ) : (
+            <ScrollView
+              style={styles.taskList}
+              showsVerticalScrollIndicator={false}
+            >
+              {getTasksByStatus(activeTab).length === 0 ? (
+                <View style={styles.emptyContainer}>
+                  <Text style={styles.emptyText}>
+                    No tasks found for "{activeTab}"
+                  </Text>
+                </View>
+              ) : (
+                getTasksByStatus(activeTab).map((task) => (
+                  <TaskCard
+                    key={task._id}
+                    id={task._id}
+                    title={task.title}
+                    assignedTo={getAssigneeNames(task.assignedTo ?? [])}
+                    status={task.status}
+                    onPress={() => handleTaskPress(task)}
+                  />
+                ))
+              )}
+            </ScrollView>
+          )}
         </View>
 
         {/* Floating action button for adding new tasks */}
         {canAddTask && (
           <View style={styles.floatingButton}>
             <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
-              <Text style={styles.addButtonText}>+</Text>
+              <Entypo name="plus" size={24} color="white" />
             </TouchableOpacity>
           </View>
         )}
@@ -317,9 +316,6 @@ export default function ProjectTasksScreen() {
   );
 }
 
-/**
- * Stylesheet for the ProjectTasksScreen component.
- */
 const styles = StyleSheet.create({
   // General container style with white background
   container: {
@@ -381,14 +377,6 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
 
-  // // Style for back button container
-  // backButton: {
-  //   width: 48,
-  //   height: 48,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
-
   // Style for back button icon/text
   backButtonText: {
     fontSize: 24,
@@ -397,10 +385,9 @@ const styles = StyleSheet.create({
 
   // Header title text style, centered and bold
   headerTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#111418",
-    letterSpacing: -0.015,
     flex: 1,
     textAlign: "center",
   },
@@ -413,8 +400,8 @@ const styles = StyleSheet.create({
   // Container for floating add button
   floatingButton: {
     position: "absolute",
-    bottom: 20,
-    right: 20,
+    bottom: 40,
+    right: 30,
   },
 
   // Style of the add button itself

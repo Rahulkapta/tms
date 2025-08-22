@@ -172,7 +172,7 @@ export default function NewTaskScreen() {
           {/* Header */}
           <View style={styles.header}>
             <TouchableOpacity onPress={() => router.back()}>
-              <Entypo name="cross" size={24} color="black" />
+              <Entypo name="cross" size={28} color="black" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>New Task</Text>
             <View style={{ width: 24 }} />
@@ -286,10 +286,9 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#121416",
-    letterSpacing: -0.015,
     flex: 1,
     textAlign: "center",
   },
