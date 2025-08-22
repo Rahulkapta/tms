@@ -373,10 +373,9 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#111518",
-    letterSpacing: -0.015,
     flex: 1,
     textAlign: "center", // Center the title text
   },

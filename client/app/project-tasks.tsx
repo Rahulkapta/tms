@@ -385,10 +385,9 @@ const styles = StyleSheet.create({
 
   // Header title text style, centered and bold
   headerTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#111418",
-    letterSpacing: -0.015,
     flex: 1,
     textAlign: "center",
   },

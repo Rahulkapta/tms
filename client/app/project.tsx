@@ -178,10 +178,9 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#111418",
-    letterSpacing: -0.015,
     flex: 1,
     textAlign: "center",
   },

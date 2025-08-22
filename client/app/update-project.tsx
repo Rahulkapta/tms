@@ -303,7 +303,7 @@ export default function UpdateProjectScreen() {
             <TouchableOpacity
               onPress={() => router.back()}
             >
-              <Entypo name="cross" size={24} color="black" />
+              <Entypo name="cross" size={28} color="black" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Update Project</Text>
           </View>
@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#111418",
   },
