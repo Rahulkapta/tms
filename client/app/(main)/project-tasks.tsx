@@ -19,7 +19,7 @@ import TaskCard from "@/components/TaskCard";
 import { Icons } from "@/assets/icons";
 
 import api from "@/utils/api";
-import { IUser } from "./people";
+import { IUser } from "./(main)/people";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 
 /**

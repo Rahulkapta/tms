@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Input from "@/components/Input";
 import { filtered } from "@/utils/common.utils";
-import { IUser } from "@/app/people";
+import { IUser } from "@/app/(main)/people";
 
 // --- Props Type Definition ---
 interface Props {

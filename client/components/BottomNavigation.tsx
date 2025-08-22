@@ -18,7 +18,7 @@ export default function BottomNavigation({
       id: "projects",
       label: "Projects",
       icon: Icons.project,
-      route: "/project",
+      route: "/(main)",
     },
     {
       id: "people",

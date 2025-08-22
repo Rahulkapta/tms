@@ -21,7 +21,7 @@ import EmployeeModal from "@/components/modals/EmployeeModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import api from "@/utils/api";
-import { IUser } from "./people";
+import { IUser } from "./(main)/people";
 import { setSelectedProject } from "@/store/slices/projectSlice";
 import StatusModal from "@/components/modals/SelectModal";
 import DateRangePicker from "@/components/DateRangePicker";

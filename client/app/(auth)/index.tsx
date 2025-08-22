@@ -14,6 +14,8 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import * as SecureStore from 'expo-secure-store';
+
 
 export default function LoginScreen() {
   const dispatch = useDispatch();
@@ -42,12 +44,12 @@ export default function LoginScreen() {
 
       if (res.httpStatus === 200) {
         const user = res.data.user;
-        console.log(user);
-        
         // Store in Redux
         dispatch(loginSuccess(user));
 
-        router.replace( "/project");
+            SecureStore.setItemAsync('access_token', user.accessToken);
+            router.replace("/(main)")
+
       } else {
         Alert.alert("Login Failed", res.message || "Invalid credentials");
       }

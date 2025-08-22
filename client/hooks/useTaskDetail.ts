@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import api from "@/utils/api";
-import { IUser } from "@/app/people";
+import { IUser } from "@/app/(main)/people";
 import { TaskData } from "@/app/new-task";
 
 

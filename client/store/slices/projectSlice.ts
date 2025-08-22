@@ -1,5 +1,5 @@
 // store/slices/projectSlice.ts
-import { ApiProject } from "@/app/project";
+import { ApiProject } from "@/app/(main)";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ProjectState {

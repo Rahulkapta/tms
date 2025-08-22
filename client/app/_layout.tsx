@@ -1,52 +1,36 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
-import { Provider } from "react-redux";
-import { store } from "@/store";
+import React, { useEffect, useState } from "react";
+import { Redirect, Stack } from "expo-router";
+import * as splashScreen from "expo-splash-screen";
+import * as SecureStore from 'expo-secure-store';
+splashScreen.preventAutoHideAsync();
 
-import { useColorScheme } from "@/hooks/useColorScheme";
+const RootLayout = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  
+  
+  useEffect(() => {
+    const prepare = async () => {
+      const token = await SecureStore.getItemAsync('access_token');
+      setIsLogin(!!token); // sets true if token exists, else false
+      await splashScreen.hideAsync(); // hide after check
+    };
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
-
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+    prepare();
+  }, []);
+  
 
   return (
-    <Provider store={store}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-          <Stack.Screen name="project" options={{ headerShown: false }} />
-          <Stack.Screen name="otp" options={{ headerShown: false }} />
-          <Stack.Screen name="new-project" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="update-project"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="project-tasks" options={{ headerShown: false }} />
-          <Stack.Screen name="new-task" options={{ headerShown: false }} />
-          <Stack.Screen name="task-detail" options={{ headerShown: false }} />
-          <Stack.Screen name="add-people" options={{ headerShown: false }} />
-          <Stack.Screen name="people" options={{ headerShown: false }} />
-          <Stack.Screen name="inbox" options={{ headerShown: false }} />
-          <Stack.Screen name="settings" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </Provider>
+    <>
+    <Stack screenOptions={{animation: "fade_from_bottom", headerShown:false, contentStyle: {
+      backgroundColor: "white", 
+    },}}/>
+      {isLogin ? (
+        <Redirect href={"/(main)"} />
+      ) : (
+        <Redirect href={"/(auth)"} />
+      )}
+    </>
   );
-}
+};
+
+export default RootLayout;

@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 import EmployeeModal from "./modals/EmployeeModal"; // Assuming path to your modal
-import { IUser } from "@/app/people";
+import { IUser } from "@/app/(main)/people";
 interface AssigneeSelectorProps {
   employeeList: IUser[];
   selectedAssignees: string[];

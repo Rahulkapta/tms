@@ -15,6 +15,7 @@ import { Colors } from "@/constants/Colors";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
+import * as SecureStore from "expo-secure-store";
 
 export default function SettingsScreen() {
   const currentUser = useSelector((state: RootState) => state.auth.user);
@@ -29,54 +30,45 @@ export default function SettingsScreen() {
         style: "destructive",
         onPress: () => {
           console.log("Logout confirmed");
-          router.replace("/");
+          SecureStore.deleteItemAsync("access_token");
+          router.replace("/(auth)");
         },
       },
     ]);
   };
   const handleEditProfile = () => {
-    Alert.alert(
-    "Edit Profile",
-    "Profile editing is coming soon!",
-    [{ text: "OK" }]
-  );
+    Alert.alert("Edit Profile", "Profile editing is coming soon!", [
+      { text: "OK" },
+    ]);
     // Navigate to edit profile screen
   };
 
   const handleChangePassword = () => {
-     Alert.alert(
-    "Change Password",
-    "Change Password is coming soon!",
-    [{ text: "OK" }]
-  );
-    
+    Alert.alert("Change Password", "Change Password is coming soon!", [
+      { text: "OK" },
+    ]);
+
     // Navigate to change password screen
   };
 
   const handleNotificationSettings = () => {
-      Alert.alert(
-    "Notification Setting",
-    "Notification Setting is coming soon!",
-    [{ text: "OK" }]
-  );
+    Alert.alert(
+      "Notification Setting",
+      "Notification Setting is coming soon!",
+      [{ text: "OK" }]
+    );
     // Navigate to notification settings
   };
 
   const handlePrivacySettings = () => {
-      Alert.alert(
-    "Privacy Setting",
-    "Privacy Setting is coming soon!",
-    [{ text: "OK" }]
-  );
+    Alert.alert("Privacy Setting", "Privacy Setting is coming soon!", [
+      { text: "OK" },
+    ]);
     // Navigate to privacy settings
   };
 
   const handleSupport = () => {
-      Alert.alert(
-    "Support ",
-    "This is coming soon!",
-    [{ text: "OK" }]
-  );
+    Alert.alert("Support ", "This is coming soon!", [{ text: "OK" }]);
     // Navigate to support/help
   };
 
@@ -109,7 +101,11 @@ export default function SettingsScreen() {
                   style={styles.profileName}
                 >{`${currentUser?.userDetails.name.first} ${currentUser?.userDetails.name.last}`}</Text>
                 <View style={styles.designationContainer}>
-                  <MaterialIcons name="work" size={16} color={Colors.iconContainer.icon} />
+                  <MaterialIcons
+                    name="work"
+                    size={16}
+                    color={Colors.iconContainer.icon}
+                  />
                   <Text style={styles.designation}>
                     {currentUser?.userDetails.designation}
                   </Text>
@@ -123,7 +119,11 @@ export default function SettingsScreen() {
             <Text style={styles.sectionTitle}>Contact Information</Text>
             <View style={styles.contactItem}>
               <View style={styles.contactIcon}>
-                <Feather name="mail" size={18} color={Colors.iconContainer.icon} />
+                <Feather
+                  name="mail"
+                  size={18}
+                  color={Colors.iconContainer.icon}
+                />
               </View>
               <View style={styles.contactInfo}>
                 <Text style={styles.contactLabel}>Email</Text>
@@ -132,7 +132,11 @@ export default function SettingsScreen() {
             </View>
             <View style={styles.contactItem}>
               <View style={styles.contactIcon}>
-                <Feather name="phone" size={18} color={Colors.iconContainer.icon} />
+                <Feather
+                  name="phone"
+                  size={18}
+                  color={Colors.iconContainer.icon}
+                />
               </View>
               <View style={styles.contactInfo}>
                 <Text style={styles.contactLabel}>Mobile</Text>
@@ -152,7 +156,11 @@ export default function SettingsScreen() {
               onPress={handleEditProfile}
             >
               <View style={styles.settingIcon}>
-                <Feather name="edit-3" size={20} color={Colors.iconContainer.icon} />
+                <Feather
+                  name="edit-3"
+                  size={20}
+                  color={Colors.iconContainer.icon}
+                />
               </View>
               <Text style={styles.settingText}>Edit Profile</Text>
               <AntDesign name="right" size={16} color={"#9ca3af"} />
@@ -163,7 +171,11 @@ export default function SettingsScreen() {
               onPress={handleChangePassword}
             >
               <View style={styles.settingIcon}>
-                <Feather name="lock" size={20} color={Colors.iconContainer.icon} />
+                <Feather
+                  name="lock"
+                  size={20}
+                  color={Colors.iconContainer.icon}
+                />
               </View>
               <Text style={styles.settingText}>Change Password</Text>
               <AntDesign name="right" size={16} color="#9ca3af" />
@@ -174,7 +186,11 @@ export default function SettingsScreen() {
               onPress={handleNotificationSettings}
             >
               <View style={styles.settingIcon}>
-                <Feather name="bell" size={20} color={Colors.iconContainer.icon} />
+                <Feather
+                  name="bell"
+                  size={20}
+                  color={Colors.iconContainer.icon}
+                />
               </View>
               <Text style={styles.settingText}>Notifications</Text>
               <AntDesign name="right" size={16} color="#9ca3af" />
@@ -185,7 +201,11 @@ export default function SettingsScreen() {
               onPress={handlePrivacySettings}
             >
               <View style={styles.settingIcon}>
-                <Feather name="shield" size={20} color={Colors.iconContainer.icon} />
+                <Feather
+                  name="shield"
+                  size={20}
+                  color={Colors.iconContainer.icon}
+                />
               </View>
               <Text style={styles.settingText}>Privacy & Security</Text>
               <AntDesign name="right" size={16} color="#9ca3af" />
@@ -196,23 +216,28 @@ export default function SettingsScreen() {
               onPress={handleSupport}
             >
               <View style={styles.settingIcon}>
-                <Feather name="help-circle" size={20} color={Colors.iconContainer.icon} />
+                <Feather
+                  name="help-circle"
+                  size={20}
+                  color={Colors.iconContainer.icon}
+                />
               </View>
               <Text style={styles.settingText}>Help & Support</Text>
               <AntDesign name="right" size={16} color="#9ca3af" />
             </TouchableOpacity>
 
             {/* Logout Button */}
-      <View style={styles.logoutContainer}>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>Log out</Text>
-        </TouchableOpacity>
-      </View>
+            <View style={styles.logoutContainer}>
+              <TouchableOpacity
+                style={styles.logoutButton}
+                onPress={handleLogout}
+              >
+                <Text style={styles.logoutButtonText}>Log out</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ScrollView>
-
-      
 
       {/* Bottom Navigation */}
       <BottomNavigation activeTab="settings" />
@@ -245,7 +270,7 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
- 
+
   profileSection: {
     paddingHorizontal: 16,
     paddingVertical: 16,
@@ -265,7 +290,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.iconContainer.iconBackground,
     justifyContent: "center",
     alignItems: "center",
-
   },
   profileInitialsText: {
     fontSize: 36,
@@ -305,7 +329,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     marginHorizontal: 16,
     borderRadius: 16,
-    marginBottom:20,
+    marginBottom: 20,
     padding: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
