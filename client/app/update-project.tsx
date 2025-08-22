@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
+  ActivityIndicator,
   Alert,
   ScrollView,
   StyleSheet,
@@ -49,6 +50,8 @@ export default function UpdateProjectScreen() {
     status: "",
     employees: [] as string[], // Employee names for display
   });
+
+  const [loading, setLoading] = useState(true);
 
   // List of all users fetched from backend (managers and employees)
   const [users, setUsers] = useState<IUser[]>([]);
@@ -164,6 +167,9 @@ export default function UpdateProjectScreen() {
 
       setChanged(false); // Reset change tracker on load
       setDateError(""); // Clear date errors on load
+       setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     }
   }, [selectedProject, Managers, Employees]);
 
@@ -291,21 +297,26 @@ export default function UpdateProjectScreen() {
   // ---------------------- Render ----------------------
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+          {/* Header with close button */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => router.back()}
+            >
+              <Entypo name="cross" size={24} color="black" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Update Project</Text>
+          </View>
+      {loading ? (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    ) : (
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.content}>
-          {/* Header with close button */}
-          <View style={styles.header}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => router.back()}
-            >
-              <Text style={styles.closeButtonText}>✕</Text>
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Update Project</Text>
-          </View>
+        
 
           {/* Form */}
           <View style={styles.form}>
@@ -485,8 +496,9 @@ export default function UpdateProjectScreen() {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        
       </ScrollView>
+      )}
 
       {/* Manager selection modal */}
       <ManagerModal
@@ -536,6 +548,7 @@ export default function UpdateProjectScreen() {
           disabled={!isFormValid}
         />
       </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -560,16 +573,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 16,
     paddingBottom: 8,
-  },
-  closeButton: {
-    width: 48,
-    height: 48,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  closeButtonText: {
-    fontSize: 24,
-    color: "#111418",
   },
   headerTitle: {
     flex: 1,

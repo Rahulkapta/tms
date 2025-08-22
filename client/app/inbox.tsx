@@ -132,13 +132,6 @@ export default function InboxScreen() {
     fetchNotifications();
   }, []);
 
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#007AFF" />
-      </View>
-    );
-  }
   const renderNotificationItem: ListRenderItem<Notification> = ({
     item: notif,
   }) => (
@@ -317,23 +310,28 @@ export default function InboxScreen() {
   // Key extractor function
   const keyExtractor = (item: Notification) => item._id;
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={{ width: 24 }}></View>
-          <Text style={styles.headerTitle}>Activity</Text>
-          <TouchableOpacity onPress={handleRefresh} disabled={refreshing}>
-            <Foundation
-              name="refresh"
-              size={24}
-              color={refreshing ? "#999" : "black"}
-            />
-          </TouchableOpacity>
-        </View>
+ return (
+  <SafeAreaView style={styles.container}>
+    <View style={styles.content}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={{ width: 24 }}></View>
+        <Text style={styles.headerTitle}>Activity</Text>
+        <TouchableOpacity onPress={handleRefresh} disabled={refreshing}>
+          <Foundation
+            name="refresh"
+            size={24}
+            color={refreshing ? "#999" : "black"}
+          />
+        </TouchableOpacity>
+      </View>
 
-        {/* Activity Feed with FlatList */}
+      {/* Conditional FlatList or Loading Indicator */}
+      {loading ? (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size="large" color="#007AFF" />
+        </View>
+      ) : (
         <FlatList
           data={notifications}
           renderItem={renderNotificationItem}
@@ -346,12 +344,13 @@ export default function InboxScreen() {
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={renderEmptyComponent}
         />
-      </View>
+      )}
+    </View>
 
-      {/* Bottom Navigation */}
-      <BottomNavigation activeTab="inbox" />
-    </SafeAreaView>
-  );
+    {/* Bottom Navigation */}
+    <BottomNavigation activeTab="inbox" />
+  </SafeAreaView>
+);
 }
 
 const styles = StyleSheet.create({

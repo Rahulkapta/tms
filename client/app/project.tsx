@@ -125,7 +125,7 @@ export default function ProjectsScreen() {
         {/* --- Main Project List or Loading State --- */}
         {loading ? (
           <ActivityIndicator
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 400 }}
             size="large"
             color="#007AFF"
           />

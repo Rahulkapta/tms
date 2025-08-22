@@ -4,6 +4,7 @@ import { router, useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Image,
   ScrollView,
@@ -38,6 +39,7 @@ export interface IUser {
 export default function PeopleScreen() {
   // State to hold the list of users fetched from the backend
   const [users, setUsers] = useState<IUser[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const currentUser = useSelector((state: RootState) => state.auth.user);
 
@@ -55,6 +57,9 @@ export default function PeopleScreen() {
           if (response.status === 200) {
             // Success: update users state with received data
             setUsers(response.data.data);
+            setTimeout(() => {
+              setLoading(false);
+            }, 1000);
           } else {
             // API responded with an error status
             Alert.alert(
@@ -111,45 +116,53 @@ export default function PeopleScreen() {
         </View>
 
         {/* Scrollable list of users */}
-        <ScrollView
-          style={styles.membersList}
-          showsVerticalScrollIndicator={false}
-        >
-          {users.map((member) => {
-            // Get initials from user's first and last name for display fallback
+        {loading ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <ActivityIndicator size="large" color="#007AFF" />
+          </View>
+        ) : (
+          <ScrollView
+            style={styles.membersList}
+            showsVerticalScrollIndicator={false}
+          >
+            {users.map((member) => {
+              // Get initials from user's first and last name for display fallback
 
-            const initials = getInitials(
-              member.details.name.first,
-              member.details.name.last
-            );
+              const initials = getInitials(
+                member.details.name.first,
+                member.details.name.last
+              );
 
-            return (
-              <View key={member._id} style={styles.memberItem}>
-                {/* Display avatar if available, else show initials */}
-                {member.avatar ? (
-                  <Image
-                    source={{ uri: member.avatar }}
-                    style={styles.memberAvatar}
-                  />
-                ) : (
-                  <View style={styles.initialsCircle}>
-                    <Text style={styles.initialsText}>{initials}</Text>
+              return (
+                <View key={member._id} style={styles.memberItem}>
+                  {/* Display avatar if available, else show initials */}
+                  {member.avatar ? (
+                    <Image
+                      source={{ uri: member.avatar }}
+                      style={styles.memberAvatar}
+                    />
+                  ) : (
+                    <View style={styles.initialsCircle}>
+                      <Text style={styles.initialsText}>{initials}</Text>
+                    </View>
+                  )}
+
+                  {/* User's name and designation */}
+                  <View style={styles.memberInfo}>
+                    <Text style={styles.memberName} numberOfLines={1}>
+                      {member.details.name.first} {member.details.name.last}
+                    </Text>
+                    <Text style={styles.memberRole} numberOfLines={2}>
+                      {member.details.designation}
+                    </Text>
                   </View>
-                )}
-
-                {/* User's name and designation */}
-                <View style={styles.memberInfo}>
-                  <Text style={styles.memberName} numberOfLines={1}>
-                    {member.details.name.first} {member.details.name.last}
-                  </Text>
-                  <Text style={styles.memberRole} numberOfLines={2}>
-                    {member.details.designation}
-                  </Text>
                 </View>
-              </View>
-            );
-          })}
-        </ScrollView>
+              );
+            })}
+          </ScrollView>
+        )}
       </View>
 
       {/* Bottom tab navigation with active tab highlighted */}

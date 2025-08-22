@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import {  MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import api from "@/utils/api";
 import { router } from "expo-router";
@@ -116,7 +116,7 @@ export default function ProjectCard({
                 );
               }}
             >
-              <Entypo name="trash" size={20} color="#e74c3c" />
+              <MaterialCommunityIcons name="delete" size={24} color="black" />
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     backgroundColor: "white",
-    padding: 20,
+    padding: 15,
     borderRadius: 8,
     // Add width/height or other styles as needed
   },
